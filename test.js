@@ -1,21 +1,28 @@
-const express = require('express');
-const mongoose = require("mongoose");
+const express = require('express');  // Import the Express.js Framework
+// const mongoose = require("mongoose"); // Import the Mongoose library for MongoDB interaction
 
-const app = express();
+const app = express();  // Create an Express application instance
+
+// Define a route for the root URL ('/')
+/* app.get() -- Method provided by the Express app object. It tells the application to listen for GET requests made to a specific path.
+             -- '/' First argument to app.get(). It specifies the route or path that this handler will respond to. / represents the root URL.
+             -- (req, res) Second argument to app.get(). It's a callback function that is executed when a GET request is made to the / path.
+    res.send('Hello, World!');   // Uses the send() method of the res object to send the text back to the client as a response.   */
 
 app.get('/', (req, res) => {
-    res.send('Hello, World!');
+    res.send('Hello, World!');   // Send a simple text response
 });
 
-const port = 3000;
+const port = 3000;  // Define the port number for the server to listen on
 
-mongoose.connect('mongodb://Student24:Student24@logan', {dbName: 'home24' })
-    .then(() => {
-        console.log("Connected to the database!");
-        app.listen(port, () => {
-            console.log("Example app listening on port ${port}");
-        });
-    })
-    .catch(() => {
-        console.log("Failed to connect to the database.");
-    });
+// Connect to the MongoDB database
+// mongoose.connect('mongodb://Student24:Student24@logan', {dbName: 'home24' })
+//     .then(() => {   // If the connection is succesful
+//         console.log("Connected to the database!");
+//         app.listen(port, () => {  // Start the server and listen on the specified port
+//             console.log(`Example app listening on port ${port}`);
+//         });
+//     })
+//     .catch(() => {   // If there's an error connecting to the database
+//         console.log("Failed to connect to the database.");
+//     });
