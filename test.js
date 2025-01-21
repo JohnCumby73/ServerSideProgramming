@@ -1,28 +1,45 @@
 const express = require('express');  // Import the Express.js Framework
-// const mongoose = require("mongoose"); // Import the Mongoose library for MongoDB interaction
-
+const mongoose = require("mongoose"); // Import the Mongoose library for MongoDB interaction
+const Cors = require("models/course.model")
 const app = express();  // Create an Express application instance
 
 // Define a route for the root URL ('/')
-/* app.get() -- Method provided by the Express app object. It tells the application to listen for GET requests made to a specific path.
-             -- '/' First argument to app.get(). It specifies the route or path that this handler will respond to. / represents the root URL.
-             -- (req, res) Second argument to app.get(). It's a callback function that is executed when a GET request is made to the / path.
-    res.send('Hello, World!');   // Uses the send() method of the res object to send the text back to the client as a response.   */
+// app.get() -- Method provided by the Express app object. It tells the application to listen for GET requests made to a specific path.
+//  -- '/' First argument to app.get(). It specifies the route or path that this handler will respond to. / represents the root URL.
+//  -- (req, res) Second argument to app.get(). It's a callback function that is executed when a GET request is made to the / path.
+// res.send('Hello, World!');   // Uses the send() method of the res object to send the text back to the client as a response.   
+
+
+const cors = require('cors');
+app.use(cors());
+app.use(express.json());
 
 app.get('/', (req, res) => {
     res.send('Hello, World!');   // Send a simple text response
 });
 
+app.post('/api/courses', async (req, res) => {
+    // The browser uses the GET method to send any message, so use postman to send a POST message to the app.
+    try {
+        // Here we'll use our model to save the data.
+        // We expect req.body will contain a course record to save to the db.
+        const sched = await Course.create(req.body);
+        res.status(200).json(sched);
+    }
+    catch (error) {
+        res.status(500).json({message: error.message});
+    }
+});
 const port = 3000;  // Define the port number for the server to listen on
 
 // Connect to the MongoDB database
-// mongoose.connect('mongodb://Student24:Student24@logan', {dbName: 'home24' })
-//     .then(() => {   // If the connection is succesful
-//         console.log("Connected to the database!");
-//         app.listen(port, () => {  // Start the server and listen on the specified port
-//             console.log(`Example app listening on port ${port}`);
-//         });
-//     })
-//     .catch(() => {   // If there's an error connecting to the database
-//         console.log("Failed to connect to the database.");
-//     });
+mongoose.connect("mongodb+srv://Student24:supersecret@home24.r0wcq.mongodb.net/?retryWrites=true&w=majority&appName=Home24", {dbName: 'home24' })
+    .then(() => {   // If the connection is succesful
+        console.log("Connected to the database!");
+        app.listen(port, () => {  // Start the server and listen on the specified port
+            console.log(`Example app listening on port ${port}`);
+        });
+    })
+    .catch(() => {   // If there's an error connecting to the database
+        console.log("Failed to connect to the database.");
+    });
