@@ -1,6 +1,8 @@
 const express = require('express');  // Import the Express.js Framework
 const mongoose = require("mongoose"); // Import the Mongoose library for MongoDB interaction
-const Course = require("./models/course.model.js")
+
+const courseRoute = require ("./routes/course.route.js");
+
 const app = express();  // Create an Express application instance
 
 // Define a route for the root URL ('/')
@@ -14,159 +16,72 @@ const cors = require('cors');
 app.use(cors());
 app.use(express.json());
 
+app.use ("/api/courses", courseRoute);
+
 app.get('/', (req, res) => {
     res.send('Hello, World!');   // Send a simple text response
 });
 
-// Query/Retrieve All Records
-app.get('/api/courses', async (req, res) => {
-    try {
-        const courses = await Course.find({});
-        res.status(200).json(courses);
-    }
-    catch (err) {
-        res.status(500).json({message: err.message});
-    }
-})
-
-// Query/Retrieve a record by Id
-app.get('/api/course/id=:id', async (req, res) => {
-    try {
-        const course = await Course.findById (req.params.id);
-        res.status(200).json(course);
-    }
-    catch (err) {
-        res.status(500).json({message: err.message})
-    }
-})
-
-// Query/Retrieve the first record by Name
-app.get('/api/course/name=:name', async (req, res) => {
-    try {
-        const course = await Course.findOne ({courseName:req.params.name});
-        res.status(200).json(course);
-    }
-    catch (err) {
-        res.status(500).json({message: err.message});
-    }
-})
 
 // Query/Retrieve all records by Name
-app.get('/api/course/name=:name', async (req, res) => {
-    try {
-        const courses = await Course.find ({courseName:req.params.name});
-        res.status(200).json(courses);
-    }
-    catch (err) {
-        res.status(500).json({message: err.message});
-    }
-});
+// app.get('/api/course/name=:name', async (req, res) => {
+//     try {
+//         const courses = await Course.find ({courseName:req.params.name});
+//         res.status(200).json(courses);
+//     }
+//     catch (err) {
+//         res.status(500).json({message: err.message});
+//     }
+// });
 
 // ---------------------- Handling Update Messages
 // Update All records
-app.get('/api/courses', async (req, res) => {
-    try {
-        const courses = await Course.updateMany({}, req.body);
-        res.status(200).json(courses)
-    }
-    catch (err) {
-        res.status(500).json({message: err.message});
-    }
-})
+// app.put('/api/courses', async (req, res) => {
+//     try {
+//         const courses = await Course.updateMany({}, req.body);
+//         res.status(200).json(courses)
+//     }
+//     catch (err) {
+//         res.status(500).json({message: err.message});
+//     }
+// })
 
-// Update a record by Id
-app.get ('/api/course/id=:id', async (req, res) => {
-    try {
-        const course = await Course.findByIdAndUpdate (req.params.id, req.body);
-        res.status(200).json(course);
-    }
-    catch (err) {
-        res.status(500).json({message: err.messsage})
-    }
-})
-
-// Update the first record by Name
-app.get('/api/courses/name=:name', async (req, res) => {
-    try {
-        const course = await Course.findOneAndUpdate ({courseName:req.params.name}, req.body);
-        res.status(200).json(course);
-    }
-    catch (err) {
-        res.status(500).json({message: err.message});
-    }
-})
 
 // Update all records by Name
-app.get('/api/courses/name=:name', async (req, res) => {
-    try {
-        const courses = await Course.updateMany ({courseName:req.params.name}, req.body);
-        res.status(200).json(course);
-    }
-    catch (err) {
-        res.status(500).json({message: err.message})
-    }
-})
+// app.put('/api/courses/name=:name', async (req, res) => {
+//     try {
+//         const courses = await Course.updateMany ({courseName:req.params.name}, req.body);
+//         res.status(200).json(course);
+//     }
+//     catch (err) {
+//         res.status(500).json({message: err.message})
+//     }
+// })
 
 // -------------------------------- Handling Delete Messages
 
 // Delete All Records
-app.get ('/api/courses', async (req, res) => {
-    try {
-        const courses = await Course.deleteMany ({});
-        res.status(200).json(courses);
-    }
-    catch (err) {
-        res.status(500).json({message: err.message});
-    }
-})
+// app.get ('/api/courses', async (req, res) => {
+//     try {
+//         const courses = await Course.deleteMany ({});
+//         res.status(200).json(courses);
+//     }
+//     catch (err) {
+//         res.status(500).json({message: err.message});
+//     }
+// })
 
-// Delete a record by Id
-app.get ('/api/courses/id=:id', async (req, res) => {
-    try {
-        const course = await Course.findByIdAndDelete (req.params.id);
-        res.status(200).json(course);
-    }
-    catch (err) {
-        res.status(500).json({message: err.message})
-    }
-})
-
-// Delete the first record by name
-app.get ('/api/courses/name=:name', async (req, res) => {
-    try {
-        const course = await Course.findOneAndDelete ({courseName:req.params.name});
-        res.status(200).json(course);
-    }
-    catch (err) {
-        res.status(500).json({message: err.message})
-    }
-})
 
 // Delete all records by name
-app.get ('/api/courses/name=:name', async (req, res) => {
-    try {
-        const course = await Course.deleteMany({courseName:req.params.name});
-        res.status(200).json(course);
-    }
-    catch (err) {
-        res.status(500).json({message: err.message})
-    }
-})
-
-app.post('/api/courses', async (req, res) => {
-    // The browser uses the GET method to send any message, so use postman to send a POST message to the app.
-    try {
-        // Here we'll use our model to save the data.
-        // We expect req.body will contain a course record to save to the db.
-        const sched = await Course.create(req.body);
-        res.status(200).json(sched);
-    }
-    catch (error) {
-        res.status(500).json({message: error.message});
-    }
-
-
-});
+// app.delete ('/api/courses/name=:name', async (req, res) => {
+//     try {
+//         const course = await Course.deleteMany({courseName:req.params.name});
+//         res.status(200).json(course);
+//     }
+//     catch (err) {
+//         res.status(500).json({message: err.message})
+//     }
+// })
 const port = 3000;  // Define the port number for the server to listen on
 
 // Connect to the MongoDB database
