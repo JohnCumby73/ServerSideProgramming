@@ -4,6 +4,8 @@ const mongoose = require("mongoose"); // Import the Mongoose library for MongoDB
 const courseRoute = require ("./routes/course.route.js");
 
 const app = express();  // Create an Express application instance
+const cors = require('cors');
+app.use(cors());
 
 // Define a route for the root URL ('/')
 // app.get() -- Method provided by the Express app object. It tells the application to listen for GET requests made to a specific path.
@@ -12,8 +14,6 @@ const app = express();  // Create an Express application instance
 // res.send('Hello, World!');   // Uses the send() method of the res object to send the text back to the client as a response.   
 
 
-const cors = require('cors');
-app.use(cors());
 app.use(express.json());
 
 app.use ("/api/courses", courseRoute);
