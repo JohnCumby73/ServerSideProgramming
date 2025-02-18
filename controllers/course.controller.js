@@ -53,7 +53,7 @@ const updateCourseById = async (req, res) => {
 const updateCourseByName = async (req, res) => {
     try {
         console.log("Trying to find one")
-        const course = await Course.findOneAndUpdate ({courseName:req.params.name}, req.body);
+        const course = await Course.findOneAndUpdate ({courseName:req.params.name}, req.body, {new: true});
         console.log(course)
         res.status(200).json(course);
     }
