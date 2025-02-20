@@ -3,6 +3,7 @@ const mongoose = require("mongoose"); // Import the Mongoose library for MongoDB
 
 const courseRoute = require ("./routes/course.route.js");
 const studentRoute = require ("./routes/student.route.js");
+const registerRoute = require ("./routes/register.route.js");
 
 const app = express();  // Create an Express application instance
 const cors = require('cors');
@@ -19,6 +20,7 @@ app.use(express.json());
 
 app.use ("/api/courses", courseRoute);
 app.use ("/api/students", studentRoute);
+app.use ("/api/register", registerRoute);
 
 app.get('/', (req, res) => {
     res.send('Hello, World!');   // Send a simple text response

@@ -60,7 +60,11 @@ const StudentSchema = mongoose.Schema ({
     program: {
         type: String,
         required: [true, "Please enter the program."]
-    }
+    },
+    listOfRegisteredCourses: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Course'
+    }]
 });
 
 const Student = mongoose.model("Student", StudentSchema);
