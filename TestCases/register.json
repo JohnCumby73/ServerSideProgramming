@@ -1,0 +1,111 @@
+[
+    {
+        "schoolId":"2024010001",
+        "couseName":"CP1000"
+    },
+    {
+        "schoolId":"2024010001",
+        "couseName":"CP1020"
+    },
+    {
+        "schoolId":"2024010001",
+        "couseName":"CP1040"
+    },
+
+    {
+        "schoolId":"2024010002",
+        "couseName":"CP1000"
+    },
+    {
+        "schoolId":"2024010002",
+        "couseName":"CP1020"
+    },
+    {
+        "schoolId":"2024010002",
+        "couseName":"CP1040"
+    },
+
+    {
+        "schoolId":"2024010003",
+        "couseName":"CP1000"
+    },
+    {
+        "schoolId":"2024010003",
+        "couseName":"CP1020"
+    },
+    {
+        "schoolId":"2024010003",
+        "couseName":"CP1040"
+    },
+
+    {
+        "schoolId":"2023010004",
+        "couseName":"CP2010"
+    },
+    {
+        "schoolId":"2023010004",
+        "couseName":"CP2030"
+    },
+    {
+        "schoolId":"2023010004",
+        "couseName":"CP2040"
+    },
+
+    {
+        "schoolId":"2023010005",
+        "couseName":"CP2010"
+    },
+    {
+        "schoolId":"2023010005",
+        "couseName":"CP2030"
+    },
+    {
+        "schoolId":"2023010005",
+        "couseName":"CP2040"
+    },
+
+    {
+        "schoolId":"2023010006",
+        "couseName":"CP2010"
+    },
+    {
+        "schoolId":"2023010006",
+        "couseName":"CP2030"
+    },
+    {
+        "schoolId":"2023010006",
+        "couseName":"CP2040"
+    },
+
+    {
+        "schoolId":"2022010007",
+        "couseName":"CP3010"
+    },
+    {
+        "schoolId":"2022010007",
+        "couseName":"CP3040"
+    },
+    {
+        "schoolId":"2022010007",
+        "couseName":"CP3100"
+    },
+
+    {
+        "schoolId":"2021010007",
+        "couseName":"CP3100"
+    },
+    {
+        "schoolId":"2022010007",
+        "couseName":"CP3100"
+    },
+    {
+        "schoolId":"2022010007",
+        "couseName":"CP3000"
+    },
+    {
+        "schoolId":"2022010007",
+        "couseName":"CP2010"
+    }
+
+
+]

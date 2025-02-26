@@ -46,6 +46,19 @@ const deleteStudentBySchoolId = async (req, res) => {
     }
 }
 
+const deleteAllStudents = async (req, res) => {
+    try {
+        const studentsToDelete = await Student.find({});
+        for (const student of studentsToDelete) {
+            await removeStudentIdFromCoursesWhenStudentDeleted(student);
+        }
+        const result = await Student.deleteMany({});
+        res.status(200).json(result);
+    } catch (err) {
+        res.status(500).json(({message: err.message}))
+    }
+}
+
 async function removeStudentIdFromCoursesWhenStudentDeleted (student) {
     for (const courseId of student.listOfRegisteredCourses) {
         try {
@@ -66,5 +79,6 @@ module.exports = {
     getStudents,
     createStudent,
     updateStudentBySchoolId,
-    deleteStudentBySchoolId
+    deleteStudentBySchoolId,
+    deleteAllStudents
 }

@@ -3,8 +3,8 @@ const Course = require ("../models/course.model.js");
 
 const registerStudentForCourse = async (req, res) => {
     try{
-        const studentId = req.params.studentId; // Get studentID from URL parameter
-        const courseTitle = req.params.courseTitle; // Get courseID from URL parameter
+        const studentId = req.params.schoolId; // Get studentID from URL parameter
+        const courseName = req.params.courseName; // Get courseID from URL parameter
 
         var studentSuccessfullyAddedToCourse = false;
         var courseSuccessfullyAddedToStudent = false;
@@ -16,7 +16,7 @@ const registerStudentForCourse = async (req, res) => {
 
         try {
             student = await Student.findOne({schoolId: studentId});  // Return the mongoose object
-            course = await Course.findOne({courseTitle: courseTitle}); // Return the mongoose object 
+            course = await Course.findOne({courseName: courseName}); // Return the mongoose object 
         } catch (err) {
             res.status(500).json({message: err})
         }
@@ -63,15 +63,15 @@ const registerStudentForCourse = async (req, res) => {
 
 const removeStudentFromCourse = async (req, res) => {
     try {
-        const studentId = req.params.studentId;
-        const courseTitle = req.params.courseTitle;
+        const schoolId = req.params.schoolId;
+        const courseName = req.params.courseName;
 
         let student;
         let course;
 
         try {
-            student = await Student.findOne({schoolId: studentId});
-            course = await Course.findOne({courseTitle: courseTitle});
+            student = await Student.findOne({schoolId: schoolId});
+            course = await Course.findOne({courseName: courseName});
         } catch (err) {
             res.status(500).json({message: err})
         }
@@ -115,7 +115,7 @@ const removeStudentFromCourse = async (req, res) => {
     }
 }
 
-async function willConflict(student, wouldBeCourse, res) {
+async function willConflict(student, wouldBeCourse) {
     // Outer loop for would-be course sessions
     for (const wouldBeSession of wouldBeCourse.sessions) {
         let wouldBeCourseStartTimeMinutesSinceMidnight = timeToMinutesFromMidnight(wouldBeSession.startTime);
@@ -128,25 +128,28 @@ async function willConflict(student, wouldBeCourse, res) {
 
                 // Inner loop for current course sessions
                 for (const currentSession of currentCourse.sessions) {
-                    let currentCourseStartTimeMinutesSinceMidnight = timeToMinutesFromMidnight(currentSession.startTime);
-                    let currentCourseEndTimeMinutesSinceMidnight = currentCourseStartTimeMinutesSinceMidnight + currentSession.duration;
-                    
-                    // CONDITION ONE -- classes start at the same time -- FAIL
-                    if (
-                        wouldBeCourseStartTimeMinutesSinceMidnight == currentCourseStartTimeMinutesSinceMidnight
-                    ) {
-                        return true;
-                    // CONDITION TWO -- would be class starts first, but runs into current class -- FAIL
-                    } else if (
-                        wouldBeCourseStartTimeMinutesSinceMidnight < currentCourseStartTimeMinutesSinceMidnight && wouldBeCourseEndTimeMinutesSinceMidnight > currentCourseStartTimeMinutesSinceMidnight
-                    ) {
-                        return true;
-    
-                    // CONDITION THREE -- current class starts first, but runs into start of would be class -- FAIL
-                    } else if (
-                        wouldBeCourseStartTimeMinutesSinceMidnight > currentCourseStartTimeMinutesSinceMidnight && wouldBeCourseStartTimeMinutesSinceMidnight < currentCourseEndTimeMinutesSinceMidnight
-                    ) {
-                        return true;
+                    if (wouldBeSession.day === currentSession.day) {
+
+                        let currentCourseStartTimeMinutesSinceMidnight = timeToMinutesFromMidnight(currentSession.startTime);
+                        let currentCourseEndTimeMinutesSinceMidnight = currentCourseStartTimeMinutesSinceMidnight + currentSession.duration;
+                        
+                        // CONDITION ONE -- classes start at the same time on the same day-- FAIL
+                        if (
+                            wouldBeCourseStartTimeMinutesSinceMidnight == currentCourseStartTimeMinutesSinceMidnight
+                        ) {
+                            return true;
+                        // CONDITION TWO -- would be class starts first, but runs into current class on the same day -- FAIL
+                        } else if (
+                            wouldBeCourseStartTimeMinutesSinceMidnight < currentCourseStartTimeMinutesSinceMidnight && wouldBeCourseEndTimeMinutesSinceMidnight > currentCourseStartTimeMinutesSinceMidnight
+                        ) {
+                            return true;
+        
+                        // CONDITION THREE -- current class starts first, but runs into start of would be class on the same day -- FAIL
+                        } else if (
+                            wouldBeCourseStartTimeMinutesSinceMidnight > currentCourseStartTimeMinutesSinceMidnight && wouldBeCourseStartTimeMinutesSinceMidnight < currentCourseEndTimeMinutesSinceMidnight
+                        ) {
+                            return true;
+                        }
                     }
                 }
 
